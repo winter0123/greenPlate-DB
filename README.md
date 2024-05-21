@@ -13,7 +13,7 @@
     <td align="center"><a href="https://github.com/ohgyulim"><img src="https://avatars.githubusercontent.com/ohgyulim" width="150px;" alt=""></td>
     <td align="center"><a href="https://github.com/wns2212"><img src="https://avatars.githubusercontent.com/wns2212" width="150px;" alt=""></td>
     <td align="center"><a href="https://github.com/dyun23"><img src="https://avatars.githubusercontent.com/dyun23" width="150px;" alt=""></td>
-    <td align="center"><a href="https://github.com/lrkdms125"><img src="https://avatars.githubusercontent.com/lrkdms125" width="150px;" alt=""></td>
+    <td align="center"><a href="https://github.com/lrkdms125"><img src="https://avatars.githubusercontent.com/dlrkdms125" width="150px;" alt=""></td>
     <td align="center"><a href="https://github.com/winter0123"><img src="https://avatars.githubusercontent.com/winter0123" width="150px;" alt=""></td>
   </tr>
   <tr>
