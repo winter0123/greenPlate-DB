@@ -30,8 +30,8 @@ DB
 
 
 ## 🖥️ 시스템 아키텍처
+<img src="./architecture.png"  style="width:80% ;" align="center"/>
 
-K8S 관련 이미지 및 간단 설명
 
 ## ✨ DR(재난 복구)
 - DB 서버 : Master - Slave 방식 사용  
