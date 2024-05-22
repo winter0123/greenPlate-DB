@@ -240,9 +240,9 @@ INSERT INTO ORDER_DETAILS(ORDERS_ID, ITEM_ID, CNT, PRICE, REFUND_YN, DEL_YN, CRE
 VALUES (51, 5, 1, 996.224, 0, 0, NOW());
 ```  
 ORDERS  
- <img src="./img/saveorder1.png"  style="width:80% ;"/>
+ <img src="./img/saveorder1.png"  style="width:80% ;"/>  
  ORDER_DETAILS  
- <img src="./img/saveorder2.png"  style="width:80% ;"/>
+ <img src="./img/saveorder2.png"  style="width:80% ;"/>  
 
 - 상품 재고 차감
 ```sql
@@ -262,7 +262,7 @@ CALL subtractStock(52); ## 임의값:52
 ```
 실행 전  
  <img src="./img/subtractstock1.png"  style="width:50% ;"/>  
- 실행 후  
+실행 후  
  <img src="./img/subtractstock2.png"  style="width:50% ;"/>  
   
 - 유저 주문 목록
