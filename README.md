@@ -46,6 +46,12 @@ DB
 [세부 사항 위키](https://github.com/beyond-sw-camp/be06-1st-404x-GreenPlate/wiki/%EA%B8%B0%EC%88%A0-%EC%8A%A4%ED%83%9D)
 
 ## 📄 요구사항 명세서
+<img src="./img/요구사항1.png"  style="width:80% ;"/>
+<img src="./img/요구사항2.png"  style="width:80% ;"/>
+<img src="./img/요구사항3.png"  style="width:80% ;"/>
+<img src="./img/요구사항4.png"  style="width:80% ;"/>
+<img src="./img/요구사항5.png"  style="width:80% ;"/>
+
 [스프레드 시트 링크](https://docs.google.com/spreadsheets/d/18xtuXo7vrMqQ2GdFQdnLxmKsj9kOOjgsPDi9ZospRJM/edit#gid=0)
 
 
@@ -74,26 +80,333 @@ DB
 
 
 ## 📚 SQL 실행 결과
-<!--
+[DDL 코드](https://github.com/beyond-sw-camp/be06-1st-404x-GreenPlate/blob/main/ddl.sql)
 <details>
-<summary>회원 가입</summary>
+<summary>회원 기능</summary>
 <div>
-<figure align="center"> 
+
+- 회원 가입
+ ```sql
+ INSERT INTO 'USER' ('NAME', 'BIRTHDAY', 'EMAIL', 'PW', 'NICKNAME', 'KEYWORD')
+ VALUES ('홍길동', '1990-01-01', 'example@example.com', 'mypassword', 'honggd', '건강 정보 내용')
+ ```
+<img src="./img/회원가입기능.png"  style="width:60% ;"/>
+
+- 비밀번호 찾기
+```sql
+UPDATE USER
+SET 비밀번호_해시 = 'new_hashed_password',
+    임시비밀번호_요청여부 = 0
+WHERE EMAIL = 'user@example.com';
+```
+<img src="./img/비밀번호찾기기능.png"  style="width:60% ;"/>
   
- </figure>
+- 회원 정보 수정
+```sql
+UPDATE USER
+SET NICKNAME = 'new_user123',
+PW = 'new_hashed_password',
+PHONE_NUM = '010-9876-5432',
+ADDRESS = '새로운 주소',
+KEYWORD = '새로운 건강정보'
+WHERE USER_ID = 'user123';
+```
+<img src="./img/회원정보수정기능.png"  style="width:60% ;"/>
+  
+- 주소지 정보
+```sql
+INSERT INTO 'USER' ('ID', 'KEYWORD_NAME')
+VALUES ('사용자ID값', 'KEYWORD_NAME');
+```
+<img src="./img/주소지변경기능.png"  style="width:60% ;"/>
+
+- 사업자 회원가입
+```sql
+INSERT INTO `COMPANY` (`EMAIL`, `PW`, `BIZ_NAME`, `BIZ_NO`, `ADDRESS`, `TEL`, `DEL_YN`, `CREATED_DATE`, `MODIFIED_DATE`) 
+VALUES ('applecompany@example.com', 'password123', '사과를파는회사', '45645', '서울시 동작구 사과를파는 회사 주소', '01012345678', 0, NOW(), NOW());
+```
+<img src="./img/회원기능_사업자회원가입.png"  style="width:60% ;"/>  
+  
+- 사업자 정보 수정
+
+```sql
+UPDATE `COMPANY`
+SET `PW` = 'new_password1234',    
+	`BIZ_NAME` = '바나나를 파는 회사였어요',    
+	`BIZ_NO` = '12345678',    
+	`ADDRESS` = '서울시 강서구 바나나파는회사',    
+	`TEL` = '01012345678',    
+	`MODIFIED_DATE` = NOW()
+WHERE `ID` = (SELECT ID FROM COMPANY WHERE `EMAIL` = [사업자 EMAIL]);
+```
+<img src="./img/회원기능_사업자정보수정.png"  style="width:60% ;"/>
+</div>
+</details>
+
+<details>
+<summary>상품 관리 기능</summary>
+
+- 사업자 상품 등록
+```sql
+INSERT INTO `ITEM` (`CATEGORY_ID`, `COMPANY_ID`, `NAME`, `EXPLAIN`, `PRICE`, `STOCK`, `CALORIE`, `IMAGE_URL1`, `EXPIRATION_DATE`, `DEL_YN`, `CREATED_DATE`, `MODIFIED_DATE`) 
+VALUES (2, 1, '맛있는 로컬 바나나', '이것은 맛있는 로컬바나나입니다.', 10000, 10, '150', NULL, NULL, 0, NOW(), NOW());
+```
+
+- 특정 사업자 상품목록
+
+```sql
+SELECT * FROM item WHERE COMPANY_ID=[검색할 회사 ID] AND `DEL_YN` = 0;
+```
+<img src="./img/상품 관리 기능1_특정 사업자 상품목록.png"  style="width:60% ;"/>
+
+- 사업자 상품 수정
+
+```sql
+UPDATE `ITEM`
+SET `NAME` = '맛있는 서울 바나나',    
+	`EXPLAIN` = '이것은 서울에서 재배한 바나나입니다.',    
+	`PRICE` = 15000,   
+	`STOCK` = 150,    
+	`CALORIE` = 200, 
+	`MODIFIED_DATE`=now()
+WHERE `ID` = [검색할 ITEM ID];
+```
+<img src="./img/상품 관리 기능2_사업자 상품 수정.png"  style="width:60% ;"/>
+
+- 관리자 상품 목록
+
+```sql
+SELECT * FROM item WHERE `DEL_YN` = 0;
+```
+<img src="./img/상품 관리 기능3_관리자 상품 목록.png"  style="width:60% ;"/>
+</div>
+</details>
+
+
+
+<details>
+<summary>전시 기능</summary>
+
+- 레시피 전시_레시피 등록
+```sql
+INSERT INTO RECIPE (USER_ID, TITLE, CONTENTS, NAME, LIKES, DEL_YN, CREATED_DATE, MODIFIED_DATE)
+VALUES (9, '닭가슴살 볶음밥', '닭가슴살 볶음밥', NULL, NULL, NULL, NOW(), NOW());
+```
+<img src="./img/레시피전시_레시피등록.png"  style="width:60% ;"/>
+
+- 레시피 전시_상품 재료 등록
+
+```sql
+INSERT INTO RECIPE_ITEM (RECIPE_ID, ITEM_ID)
+VALUES (22, 1);
+```
+<img src="./img/레시피 전시_상품 재료 등록.png"  style="width:40% ;"/>
+
+- 레시피 전시_레시피 후기 작성
+
+```sql
+INSERT INTO REVIEW (RECIPE_ID, USER_ID, STAR_POINT, CONTENT, IMAGE_URL)
+VALUES
+(145, 15, 5, 'Excellent recipe!', 'image5.jpg');
+```
+<img src="./img/레시피 전시_레시피 후기 작성.png"  style="width:60% ;"/>
+
+- 레시피 전시_레시피 수정
+```sql
+UPDATE RECIPE
+SET
+TITLE = '수정된 당근레시피에요',
+CONTENTS = '수정된 당근레시피 내용이지요',
+MODIFIED_DATE = NOW()
+WHERE ID = 1;
+```
+<img src="./img/레시피 전시_레시피 수정.png"  style="width:60% ;"/>
 </div>
 
 </details>
 
 <details>
-<summary>로그인</summary>
+<summary>주문 기능</summary>
 <div>
-<figure align="center"> 
+  
+- 주문 저장
+```sql
+## 임시로 데이터 지정
+INSERT INTO ORDERS(USER_ID, ADDRESS_ID, ORDER_DATE, TOTAL_PRICE, TOTAL_CNT, ORDER_STATE, REFUND_YN, DEL_YN, CREATED_DATE) 
+VALUES (19, 203, NOW(), 1977.177, 2, '배송준비', 0, 0, NOW());
+INSERT INTO ORDER_DETAILS(ORDERS_ID, ITEM_ID, CNT, PRICE, REFUND_YN, DEL_YN, CREATED_DATE) 
+VALUES (51, 3, 1, 980.953,  0, 0, NOW()); ## 상품 종류 수 만큼 생성
+INSERT INTO ORDER_DETAILS(ORDERS_ID, ITEM_ID, CNT, PRICE, REFUND_YN, DEL_YN, CREATED_DATE) 
+VALUES (51, 5, 1, 996.224, 0, 0, NOW());
+```  
+ORDERS  
+ <img src="./img/saveorder1.png"  style="width:80% ;"/>  
+ ORDER_DETAILS  
+ <img src="./img/saveorder2.png"  style="width:80% ;"/>  
 
- </figure>
+- 상품 재고 차감
+```sql
+## ordersId : 주문 추가된 ID
+DELIMITER $$
+CREATE PROCEDURE subtractStock(IN ordersId bigint)
+BEGIN
+    UPDATE ITEM
+    SET STOCK = STOCK - 1
+    WHERE ID IN (SELECT ITEM_ID
+				FROM ORDER_DETAILS
+                WHERE ORDERS_ID = ordersId);
+END $$
+DELIMITER ;
+
+CALL subtractStock(52); ## 임의값:52
+```
+실행 전  
+ <img src="./img/subtractstock1.png"  style="width:50% ;"/>  
+실행 후  
+ <img src="./img/subtractstock2.png"  style="width:50% ;"/>  
+  
+- 유저 주문 목록
+```sql
+SELECT ORDER_DATE, ORDER_STATE, TOTAL_PRICE, NAME
+FROM ORDERS JOIN ORDER_DETAILS AS TAILS
+ON ORDERS.ID = TAILS.ORDERS_ID
+JOIN ITEM ON TAILS.ITEM_ID = ITEM.ID
+WHERE USER_ID = [검색할 유저 ID]; ## 임시값:22
+```
+ <img src="./img/userorder.png"  style="width:60% ;"/>  
+   
+- 유저 주문 상세
+```sql
+SELECT ORDER_DATE, ORDER_STATE, TOTAL_PRICE, NAME, CNT, TAILS.PRICE
+FROM ORDERS LEFT JOIN ORDER_DETAILS AS TAILS
+ON ORDERS.ID = TAILS.ORDERS_ID
+LEFT JOIN ITEM ON TAILS.ITEM_ID = ITEM.ID
+WHERE ORDERS.ID = [선택한 주문 ID]; ## 임시값:50
+```
+ <img src="./img/userorderdetail.png"  style="width:60% ;"/>  
+
+- 사업자 주문 목록
+```sql
+SELECT COMPANY_ID, ORDER_DATE, TOTAL_PRICE, ORDER_STATE, TAILS.REFUND_YN
+FROM ORDERS
+JOIN ORDER_DETAILS AS TAILS
+ON ORDERS.ID = TAILS.ORDERS_ID
+JOIN ITEM ON TAILS.ITEM_ID = ITEM.ID
+WHERE COMPANY_ID = [로그인한 사업자 ID]; ## 임시값:3
+```
+ <img src="./img/coorder.png"  style="width:60% ;"/>  
+
+- 사업자 주문 상세
+```sql
+## ordersId : 선택한 주문 ID
+DELIMITER $$
+CREATE PROCEDURE coOrdersDetail (IN ordersId bigint)
+BEGIN
+    SELECT ORDERS.ID, ORDERS.USER_ID, 
+		RECIPIENT, PHONE_NUM, ZIPCODE, ADDRESS, ADDRESS_DETAIL, ORDER_STATE, TOTAL_PRICE,
+		NAME, CNT, TAILS.PRICE
+	FROM ADDRESS
+	JOIN ORDERS ON ADDRESS.ID = ORDERS.ADDRESS_ID
+	JOIN ORDER_DETAILS AS TAILS
+	ON ORDERS.ID = TAILS.ORDERS_ID
+	JOIN ITEM ON TAILS.ITEM_ID = ITEM.ID
+	WHERE ORDERS.ID = ordersId;
+END $$
+DELIMITER ;
+
+CALL coOrdersDetail(50); ## 임시값:50
+```
+ <img src="./img/coorderdetail.png"  style="width:80% ;"/>  
 </div>
-
 </details>
--->
+
+<details>
+<summary>라이브 커머스</summary>
+<div>
+  
+- 방송 일정 등록
+```sql
+-- 함수 등록
+DELIMITER $$
+CREATE PROCEDURE addLiveCommerce(IN MANAGER_ID BIGINT, IN COMPANY_ID BIGINT,
+IN TITLE VARCHAR(30), IN DESCRIPTION VARCHAR(100), IN LIVE_DATE DATE, IN START_TIME DATETIME, IN END_TIME DATETIME)
+BEGIN
+	DECLARE result INT default 0;
+    SET result = (
+    SELECT count(*) FROM LIVECOMMERCE 
+    WHERE LIVECOMMERCE.ID = ID AND LIVECOMMERCE.START_TIME >= START_TIME AND LIVECOMMERCE.END_TIME <= END_TIME
+    );
+    IF result = 0 THEN
+    INSERT INTO LIVECOMMERCE (MANAGER_ID, COMPANY_ID, TITLE, DESCRIPTION, LIVE_DATE, START_TIME, END_TIME) VALUE
+    (MANAGER_ID, COMPANY_ID, TITLE, DESCRIPTION, LIVE_DATE, START_TIME, END_TIME);
+    END IF;
+END $$
+DELIMITER ;
+
+-- 함수 호출
+CALL addLiveCommerce(2, 4, '맥북 특가!', '맥북 특가 라이브 커머스 입니다.', '2024-06-23', '2024-06-28 22:00:00', '2024-06-28 23:00:00');
+```
+<img src="./img/라이브커머스_방송일정등록.png"  style="width:80% ;"/>  
+  
+- 방송 일정 수정
+
+```sql
+--- 함수 선언
+DELIMITER $$
+CREATE PROCEDURE checkDate(IN ID BIGINT,IN MANAGER_ID BIGINT, IN COMPANY_ID BIGINT,
+IN TITLE VARCHAR(30), IN DESCRIPTION VARCHAR(100), IN LIVE_DATE DATE, IN START_TIME DATETIME, IN END_TIME DATETIME)
+BEGIN
+	DECLARE result INT default 0;
+    SET result = (
+    SELECT count(*) FROM LIVECOMMERCE 
+    WHERE LIVECOMMERCE.ID = ID AND LIVECOMMERCE.START_TIME >= START_TIME AND LIVECOMMERCE.END_TIME <= END_TIME
+    );
+    IF result = 0 THEN
+		UPDATE LIVECOMMERCE SET
+        LIVECOMMERCE.MANAGER_ID = MANAGER_ID,
+        LIVECOMMERCE.COMPANY_ID = COMPANY_ID,
+        LIVECOMMERCE.TITLE = TITLE,
+        LIVECOMMERCE.DESCRIPTION = DESCRIPTION,
+        LIVECOMMERCE.LIVE_DATE = LIVE_DATE,
+        LIVECOMMERCE.START_TIME = START_TIME,
+        LIVECOMMERCE.END_TIME = END_TIME
+        WHERE LIVECOMMERCE.ID = ID;
+	END IF;
+END $$
+DELIMITER ;
+
+--- 함수 호출
+CALL checkDate(13, 2, 4, '삼성 노트북 특가!', '삼성 노트북 특가 라이브 입니다.', '2024-06-29', '2024-06-29 22:00:00', '2024-06-29 23:00:00');
+```
+<img src="./img/라이브커머스_방송일정수정.png"  style="width:80% ;"/>  
+  
+- 전체 방송 일정 조회
+
+```sql
+SELECT * FROM LIVECOMMERCE;
+```
+<img src="./img/라이브커머스_전체방송일정조회.png"  style="width:80% ;"/>  
+  
+- 업체 이름으로 방송 일정 조회
+
+```sql
+-- 함수 선언
+ DELIMITER $$
+CREATE PROCEDURE searchLCwithCommpanyName(IN BIZ_NAME VARCHAR(30))
+BEGIN
+	SELECT * FROM LIVECOMMERCE
+	LEFT JOIN COMPANY
+	ON LIVECOMMERCE.COMPANY_ID = COMPANY.ID
+	WHERE COMPANY.BIZ_NAME = BIZ_NAME;
+END $$
+DELIMITER ;
+
+-- 함수 호출
+CALL searchLCwithCommpanyName('Kassulke Group');
+```
+<img src="./img/라이브커머스_업체이름으로방송일정조회.png"  style="width:80% ;"/>  
+</div>
+</details>
+
 
 
