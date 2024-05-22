@@ -86,14 +86,14 @@ DB
 <div>
 
 - 회원 가입
-    ```python
-    INSERT INTO 'USER' ('NAME', 'BIRTHDAY', 'EMAIL', 'PW', 'NICKNAME', 'KEYWORD')
-    VALUES ('홍길동', '1990-01-01', 'example@example.com', 'mypassword', 'honggd', '건강 정보 내용')
-    ```
+ ```sql
+ INSERT INTO 'USER' ('NAME', 'BIRTHDAY', 'EMAIL', 'PW', 'NICKNAME', 'KEYWORD')
+ VALUES ('홍길동', '1990-01-01', 'example@example.com', 'mypassword', 'honggd', '건강 정보 내용')
+ ```
 <img src="./img/회원가입기능.png"  style="width:60% ;"/>
 
 - 비밀번호 찾기
-```python
+```sql
 UPDATE USER
 SET 비밀번호_해시 = 'new_hashed_password',
     임시비밀번호_요청여부 = 0
@@ -102,7 +102,7 @@ WHERE EMAIL = 'user@example.com';
 <img src="./img/비밀번호찾기기능.png"  style="width:60% ;"/>
   
 - 회원 정보 수정
-```python
+```sql
 UPDATE USER
 SET NICKNAME = 'new_user123',
 PW = 'new_hashed_password',
@@ -114,7 +114,7 @@ WHERE USER_ID = 'user123';
 <img src="./img/회원정보수정기능.png"  style="width:60% ;"/>
   
 - 주소지 정보
-```python
+```sql
 INSERT INTO 'USER' ('ID', 'KEYWORD_NAME')
 VALUES ('사용자ID값', 'KEYWORD_NAME');
 ```
@@ -239,9 +239,9 @@ VALUES (51, 3, 1, 980.953,  0, 0, NOW()); ## 상품 종류 수 만큼 생성
 INSERT INTO ORDER_DETAILS(ORDERS_ID, ITEM_ID, CNT, PRICE, REFUND_YN, DEL_YN, CREATED_DATE) 
 VALUES (51, 5, 1, 996.224, 0, 0, NOW());
 ```  
-ORDERS
+ORDERS  
  <img src="./img/saveorder1.png"  style="width:80% ;"/>
- ORDER_DETAILS
+ ORDER_DETAILS  
  <img src="./img/saveorder2.png"  style="width:80% ;"/>
 
 - 상품 재고 차감
@@ -260,9 +260,11 @@ DELIMITER ;
 
 CALL subtractStock(52); ## 임의값:52
 ```
-실행 전/후
- <img src="./img/subtractstock1.png"  style="width:50% ;"/><img src="./img/subtractstock2.png"  style="width:50% ;"/> 
-
+실행 전  
+ <img src="./img/subtractstock1.png"  style="width:50% ;"/>  
+ 실행 후  
+ <img src="./img/subtractstock2.png"  style="width:50% ;"/>  
+  
 - 유저 주문 목록
 ```sql
 SELECT ORDER_DATE, ORDER_STATE, TOTAL_PRICE, NAME
